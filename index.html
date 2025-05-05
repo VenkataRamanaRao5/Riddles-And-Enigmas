@@ -11,7 +11,6 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
         }
         .hidden {
@@ -21,8 +20,8 @@
             display: block;
         }
         #riddle {
-            width: 80%;
-            height: 100%;
+            min-width: 80%;
+            max-width: 100%;
             overflow-y: auto;
             background-color: #f8f9fa;
             border-radius: 10px;
@@ -34,66 +33,69 @@
         }
         .riddle-line {
             padding: 5px;
-            width: 80%;
+            width: 95%;
+            display: inline-block;
             margin: 5px;
             margin-bottom: 0;
             padding-bottom: 0;
         }
         .riddle-text {
-            font-size: 1.5em;
+            font-size: calc(8px + 1vw);
             font-weight: 600;
-            margin: 5px;
+            padding: 0;
+            margin: 0;
             color: #333;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Palatino Linotype", "Book Antiqua", Garamond, serif;
         }
         .explanation-line {
             margin-top: 5px;
             margin-left: 20px;
             padding: 5px;
-            font-size: 1.2em;
-            color: #155724;
+            font-size: calc(6px + 1vw);
         }
         .explanation-text {
             margin: 10px 0 0 0;
             padding: 5px;
-            background-color: #e9f7ef;
-            font-family: 'Arial', sans-serif;
-            color: #155724;
             display: flex;
             flex-wrap: wrap;
+            background-color: #e9f7ef;
         }
         .explanation-word, .explanation-meaning {
             word-wrap: normal;
-            display: inline-flex;
             position: relative;
             top: 0;
             height: 100%;
-            align-self: stretch;
         }
         .explanation-word {
-            max-width: 35%;
-        }
-        .explanation-hyphen {
-            white-space: pre;
+            width: 34%;
+            color:#0f4b39;
+            background-color: #d1edff;
+            font-family: "Palatino Linotype", "Book Antiqua", Garamond, serif;
         }
         .explanation-meaning {
-            max-width: 69%;
+            width: 64%;
+            color: #124a1f;
+            padding-left: 2px;
+            background-color: #e9f7ef;
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            white-space: pre-wrap;
         }
         .riddle-answer {
-            font-size: 1.8em;
-            font-weight: 600;
+            font-size: calc(12px + 1vw);
+            font-weight: 700;
             padding: 5px;
             margin: 5px;
-            color: gold;
-            background-color: #e9f7ef;
-            font-family: 'Courier New', Courier, monospace;
+            color: rgb(233, 198, 0);
+            background-color: #dcffeb;
+            font-family: "Palatino Linotype", "Book Antiqua", Garamond, "Latin Modern Math", serif;
         }
         .final-line {
-            font-size: 1.5em;
+            font-size: calc(8px + 1vw);
+            white-space: pre-wrap;
             font-weight: 600;
             margin: 5px;
             color: #333;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
         }
         #controls {
             display: flex;
@@ -103,19 +105,19 @@
             padding: 10px;
         }
         #selector {
-            width: 150px;
+            width: calc(40px + 10vw);
             height: 40px;
             margin-right: 20px;
-            font-size: 1.2em;
+            font-size: calc(6px + 1vw);
             border-radius: 5px;
             border: 1px solid #ccc;
             background-color: #f8f9fa;
         }
         #explanation {
-            padding: 10px 20px;
-            font-size: 1.2em;
+            padding: 10px;
+            font-size: calc(4px + 1vw);
             height: 40px;
-            width: 200px;
+            width: calc(40px + 10vw);
             border-radius: 5px;
             border: 1px solid #ccc;
             background-color: red;
@@ -160,7 +162,7 @@
         const filesBaseUrl = 'https://github.com/VenkataRamanaRao5/Riddles-And-Enigmas/blob/main/'
 
         async function fetchRiddle(path) {
-            return fetch(demobaseUrl + path)
+            return fetch('/second/second.json')
                 .then(response => response.json())
                 .then(data => {
                     let res = {}
@@ -208,7 +210,7 @@
             riddleDiv.innerHTML = '' // Clear previous riddle
             let answerDiv = document.createElement('div')
             answerDiv.classList.add('explanation', 'riddle-answer')
-            answerDiv.innerText = selectedRiddle.answer
+            answerDiv.innerHTML = selectedRiddle.answer
             riddleDiv.appendChild(answerDiv)
             
             for(let line of selectedRiddle.lines) {
@@ -220,39 +222,36 @@
                 p.innerText = line.line
                 riddleLine.appendChild(p)
 
-                let expDiv = document.createElement('div')
-                expDiv.classList.add('explanation', 'explanation-line')
+                if(line.explanation.length > 0) {
+                    let expDiv = document.createElement('div')
+                    expDiv.classList.add('explanation', 'explanation-line')
 
-                for(let exp of line.explanation) {
-                    let expLine = document.createElement('p')
-                    expLine.className = 'explanation-text'
-                    
-                    let word = document.createElement('span')
-                    word.className = 'explanation-word'
-                    word.innerText = exp.words
-                    expLine.appendChild(word)
+                    for(let exp of line.explanation) {
+                        let expLine = document.createElement('p')
+                        expLine.className = 'explanation-text'
+                        
+                        let word = document.createElement('span')
+                        word.className = 'explanation-word'
+                        word.innerText = `"${exp.words}"`
+                        expLine.appendChild(word)
 
-                    let hyphen = document.createElement('span')
-                    hyphen.className = 'explanation-hyphen'
-                    hyphen.innerText = ' - '
-                    expLine.appendChild(hyphen)
+                        let meaning = document.createElement('span')
+                        meaning.className = 'explanation-meaning'
+                        meaning.innerHTML = exp.meaning
+                        expLine.appendChild(meaning)
 
-                    let meaning = document.createElement('span')
-                    meaning.className = 'explanation-meaning'
-                    meaning.innerText = exp.meaning
-                    expLine.appendChild(meaning)
+                        expDiv.appendChild(expLine)
+                    }
 
-                    expDiv.appendChild(expLine)
+                    riddleLine.appendChild(expDiv)
                 }
-
-                riddleLine.appendChild(expDiv)
                 riddleDiv.appendChild(riddleLine)
                 console.log(line.line)
             }
 
             let finalLine = document.createElement('div')
             finalLine.classList.add('explanation', 'final-line')
-            finalLine.innerText = selectedRiddle.answer_explanation
+            finalLine.innerHTML = selectedRiddle.answer_explanation
             riddleDiv.appendChild(finalLine)
 
             explanationButton.click()
