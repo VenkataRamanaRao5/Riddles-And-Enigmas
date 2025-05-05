@@ -1,0 +1,51 @@
+{
+    "name": "First",
+    "answer": "Church Turing thesis",
+    "lines": [
+        {
+            "line": "He learnt from God's earthly abode",
+            "explanation": [
+                {
+                    "words": "God's earthly abode",
+                    "meaning": "This refers to Church. He learnt from Church"
+                }
+            ]
+        },
+        {
+            "line": "Before he cracked the Devil's code.",
+            "explanation": [
+                {
+                    "words": "Devil's code",
+                    "meaning": "Enigma machine was used by the Germans in World War II. Alan Turing cracked it code."
+                },
+                {
+                    "words": "Before he cracked",
+                    "meaning": "Before Turing cracked the Enigma machine, he was Alonzo Church's doctoral student."
+                }
+            ]
+        },
+        {
+            "line": "T'was a work that earned a degree.",
+            "explanation": [
+                {
+                    "words": "work that earned a degree",
+                    "meaning": "Thesis is a work that earns a degree."
+                }
+            ]
+        },
+        {
+            "line": "A line shows a word, and there's three.",
+            "explanation": [
+                {
+                    "words": "A line shows a word",
+                    "meaning": "Each line reveals a word."
+                },
+                {
+                    "words": "and there's three",
+                    "meaning": "there are three lines in the riddle, each revealing a word, which together form the three-word answer."
+                }
+            ]
+        }
+    ],
+    "answer_explanation": "Line 1 - Church, Line 2 - Turing, Line 3 - thesis. The answer is the Church-Turing thesis"
+}
