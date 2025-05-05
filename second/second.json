@@ -1,0 +1,106 @@
+{
+    "name": "second",
+    "answer": "<em>e<sup>ix</sup> = cos(x) + isin(x)</em>",
+    "lines": [
+        {
+            "line": "He mounted the Elephant, deep in thought.",
+            "explanation": []
+        },
+        {
+            "line": "The first letter shows all relevant parts.",
+            "explanation": [
+                {
+                    "words": "first letter",
+                    "meaning": "The 'E' from 'Elephant'"
+                },
+                {
+                    "words": "first letter shows all relevant parts",
+                    "meaning": "The letter 'e' is the only relevant part yet"
+                }
+            ]
+        },
+        {
+            "line": "On his head was the crown of complex cross.",
+            "explanation": [
+                {
+                    "words": "complex",
+                    "meaning": "imaginary unit <em>i</em>"
+                },
+                {
+                    "words": "cross",
+                    "meaning": "the letter <em>x</em> looks like a cross"
+                },
+                {
+                    "words": "complex cross",
+                    "meaning": "Put together, forms <em>ix</em>"
+                },
+                {
+                    "words": "crown",
+                    "meaning": "Represents exponentiation, forming <em>e<sup>ix</sup></em>"
+                }
+            ]
+        },
+        {
+            "line": "He gazed upon his equal straight across.",
+            "explanation": [
+                {
+                    "words": "equal straight across",
+                    "meaning": "What is on one side is equal to the other side. Hints at an equation."
+                }
+            ]
+        },
+        {
+            "line": "He saw companies of her add to files",
+            "explanation": [
+                {
+                    "words": "companies",
+                    "meaning": "Shortens to <em>cos</em> (cosine function)"
+                },
+                {
+                    "words": "companies of her",
+                    "meaning": "<em>cos(her)</em>"
+                },
+                {
+                    "words": "add to files",
+                    "meaning": "Suggests addition operation '+'"
+                }
+            ]
+        },
+        {
+            "line": "Of the arrogant pride next to the crimes.",
+            "explanation": [
+                {
+                    "words": "arrogant pride",
+                    "meaning": "Represents 'I' which becomes the imaginary unit <em>i</em>"
+                },
+                {
+                    "words": "crimes",
+                    "meaning": "Pun on 'sins', representing the sine function <em>sin(her)</em>"
+                }
+            ]
+        },
+        {
+            "line": "Of she whom he once loved. But both were same -",
+            "explanation": [
+                {
+                    "words": "she whom he once loved",
+                    "meaning": "Represents 'ex' (past relationship) which simplifies to <em>x</em>. Replace <em>her</em> with <em>x</em>. The expression becomes <em>cos(x) + isin</em>(x)"
+                },
+                {
+                    "words": "both were same",
+                    "meaning": "The two sides of the equation are equal"
+                }
+            ]
+        },
+        {
+            "line": "A beautiful fact of eternal fame.",
+            "explanation": [
+                {
+                    "words": "beautiful fact of eternal fame",
+                    "meaning": "Euler's formula is often called the most beautiful equation in mathematics"
+                }
+            ]
+        }
+    ],
+    "answer_explanation": "The riddle describes Euler's formula <em>e<sup>ix</sup> = cos(x) + isin(x)</em>. Key elements:\n1. 'First letter of Elephant' → 'e'\n2. 'complex cross' → 'ix'\n3. 'crown' → '^'\n4. 'companies' → 'cos'\n5. 'crimes' → 'sin'\n6. 'arrogant pride' → 'i'\n7. 'she whom he once loved' → 'x'\nThe complete formula is built through these clues."
+} 
