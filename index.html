@@ -6,6 +6,71 @@
     <title>Riddles and Enigmas</title>
 </head>
 <body>
-    
+    <div id="container">
+        <select id="selector"></select>
+        <button id="explanation"></button>
+        <div id="riddle"></div>
+    </div>
+    <script>
+        const selector = document.getElementById('selector')
+        const explanationButton = document.getElementById('explanation')
+        const riddleDiv = document.getElementById('riddle')
+        let isShowingExplanation = false
+
+        let riddles = {}
+        const demobaseUrl = 'https://venkataramanarao5.github.io/Riddles-And-Enigmas/'
+        const filesBaseUrl = 'https://github.com/VenkataRamanaRao5/Riddles-And-Enigmas/blob/main/'
+
+        async function fetchRiddle(path) {
+            return fetch(demobaseUrl + path)
+                .then(response => response.json())
+                .then(data => {
+                    let res = {}
+                    res[data.name] = data
+                    let option = document.createElement('option')
+                    option.value = path
+                    option.textContent = path.split('/').pop().split('.')[0]
+                    selector.appendChild(option)
+                    console.log(res)
+                    return res
+                })
+        }
+
+        async function fetchRiddles() {
+            return fetch('https://api.github.com/repos/VenkataRamanaRao5/Riddles-And-Enigmas/git/trees/main?recursive=1')
+            .then(response => response.json())
+            .then(data => {
+                let jsonFiles = data.tree.filter(file => file.path.endsWith('.json')).map(file => file.path)
+                console.log(jsonFiles)
+                return jsonFiles
+            }).then(jsonFiles => {
+                let promises = jsonFiles.map(file => fetchRiddle(file))
+                return Promise.all(promises)
+            })
+        }
+
+        async function processRiddles(params) {
+            riddles = await fetchRiddles()
+            console.log(riddles)
+            selector.addEventListener('change', (event) => {
+                const selectedRiddle = riddles[event.target.value]
+                showRiddle(selectedRiddle)
+            })
+            showRiddle(riddles[selector.value])
+        }
+
+        function showRiddle(selectedRiddle) {
+            console.log(selectedRiddle)
+            riddleDiv.innerHTML = '' // Clear previous riddle
+            for(let line in selectedRiddle.lines) {
+                let p = document.createElement('p')
+                p.innerText = line.line
+                riddleDiv.appendChild(p)
+                console.log(line.line)
+            }
+        }
+        
+        processRiddles()
+    </script>
 </body>
 </html>
