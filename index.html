@@ -4,11 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riddles and Enigmas</title>
+    <style>
+        html, body, #container {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        #riddle {
+            width: 80%;
+            height: 100%;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .riddle-line {
+            padding: 5px;
+            width: 80%;
+            margin: 5px;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .riddle-text {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 5px;
+            color: #333;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .explanation-line {
+            margin-top: 5px;
+            margin-left: 20px;
+            padding: 5px;
+            font-size: 1.2em;
+            color: #155724;
+        }
+        .explanation-text {
+            margin: 10px 0 0 0;
+            padding: 5px;
+            background-color: #e9f7ef;
+            font-family: 'Arial', sans-serif;
+            color: #155724;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .explanation-word, .explanation-meaning {
+            word-wrap: normal;
+            display: inline-flex;
+            position: relative;
+            top: 0;
+            height: 100%;
+            align-self: stretch;
+        }
+        .explanation-word {
+            max-width: 35%;
+        }
+        .explanation-hyphen {
+            white-space: pre;
+        }
+        .explanation-meaning {
+            max-width: 69%;
+        }
+        .riddle-answer {
+            font-size: 1.8em;
+            font-weight: 600;
+            padding: 5px;
+            margin: 5px;
+            color: gold;
+            background-color: #e9f7ef;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .final-line {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 5px;
+            color: #333;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        #controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        #selector {
+            width: 150px;
+            height: 40px;
+            margin-right: 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+        }
+        #explanation {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            height: 40px;
+            width: 200px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    </style>
 </head>
 <body>
     <div id="container">
-        <select id="selector"></select>
-        <button id="explanation"></button>
+        <div id="controls">
+            <select id="selector"></select>
+            <button id="explanation">Show Explanation</button>
+        </div>
         <div id="riddle"></div>
     </div>
     <script>
@@ -16,6 +138,22 @@
         const explanationButton = document.getElementById('explanation')
         const riddleDiv = document.getElementById('riddle')
         let isShowingExplanation = false
+
+        explanationButton.addEventListener('click', () => {
+            isShowingExplanation = !isShowingExplanation
+            explanationButton.innerText = isShowingExplanation ? 'Hide Explanation' : 'Show Explanation'
+            explanationButton.style.backgroundColor = isShowingExplanation ? 'green' : 'red'
+            const explanationDivs = document.getElementsByClassName('explanation')
+            Array.from(explanationDivs).forEach(div => {
+                if(isShowingExplanation) {
+                    div.classList.remove('hidden')
+                    div.classList.add('visible')
+                } else {
+                    div.classList.remove('visible')
+                    div.classList.add('hidden')
+                }
+            })
+        })
 
         let riddles = {}
         const demobaseUrl = 'https://venkataramanarao5.github.io/Riddles-And-Enigmas/'
@@ -28,8 +166,8 @@
                     let res = {}
                     res[data.name] = data
                     let option = document.createElement('option')
-                    option.value = path
-                    option.textContent = path.split('/').pop().split('.')[0]
+                    option.value = data.name
+                    option.textContent = data.name
                     selector.appendChild(option)
                     console.log(res)
                     return res
@@ -45,7 +183,13 @@
                 return jsonFiles
             }).then(jsonFiles => {
                 let promises = jsonFiles.map(file => fetchRiddle(file))
-                return Promise.all(promises)
+                return Promise.all(promises).then(results => {
+                    let allRiddles = {}
+                    results.forEach(riddle => {
+                        Object.assign(allRiddles, riddle)
+                    })
+                    return allRiddles
+                })
             })
         }
 
@@ -62,12 +206,57 @@
         function showRiddle(selectedRiddle) {
             console.log(selectedRiddle)
             riddleDiv.innerHTML = '' // Clear previous riddle
-            for(let line in selectedRiddle.lines) {
+            let answerDiv = document.createElement('div')
+            answerDiv.classList.add('explanation', 'riddle-answer')
+            answerDiv.innerText = selectedRiddle.answer
+            riddleDiv.appendChild(answerDiv)
+            
+            for(let line of selectedRiddle.lines) {
+                let riddleLine = document.createElement('div')
+                riddleLine.className = 'riddle-line'
+
                 let p = document.createElement('p')
+                p.className = 'riddle-text'
                 p.innerText = line.line
-                riddleDiv.appendChild(p)
+                riddleLine.appendChild(p)
+
+                let expDiv = document.createElement('div')
+                expDiv.classList.add('explanation', 'explanation-line')
+
+                for(let exp of line.explanation) {
+                    let expLine = document.createElement('p')
+                    expLine.className = 'explanation-text'
+                    
+                    let word = document.createElement('span')
+                    word.className = 'explanation-word'
+                    word.innerText = exp.words
+                    expLine.appendChild(word)
+
+                    let hyphen = document.createElement('span')
+                    hyphen.className = 'explanation-hyphen'
+                    hyphen.innerText = ' - '
+                    expLine.appendChild(hyphen)
+
+                    let meaning = document.createElement('span')
+                    meaning.className = 'explanation-meaning'
+                    meaning.innerText = exp.meaning
+                    expLine.appendChild(meaning)
+
+                    expDiv.appendChild(expLine)
+                }
+
+                riddleLine.appendChild(expDiv)
+                riddleDiv.appendChild(riddleLine)
                 console.log(line.line)
             }
+
+            let finalLine = document.createElement('div')
+            finalLine.classList.add('explanation', 'final-line')
+            finalLine.innerText = selectedRiddle.answer_explanation
+            riddleDiv.appendChild(finalLine)
+
+            explanationButton.click()
+            explanationButton.click()
         }
         
         processRiddles()
