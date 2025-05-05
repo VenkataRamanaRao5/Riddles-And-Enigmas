@@ -20,20 +20,18 @@
             display: block;
         }
         #riddle {
-            min-width: 80%;
+            min-width: 60%;
             max-width: 100%;
             overflow-y: auto;
-            background-color: #f8f9fa;
+            background-color: #f3f4f5;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
         .riddle-line {
             padding: 5px;
-            width: 95%;
             display: inline-block;
             margin: 5px;
             margin-bottom: 0;
@@ -64,7 +62,6 @@
             word-wrap: normal;
             position: relative;
             top: 0;
-            height: 100%;
         }
         .explanation-word {
             width: 34%;
@@ -86,7 +83,6 @@
             padding: 5px;
             margin: 5px;
             color: rgb(233, 198, 0);
-            background-color: #dcffeb;
             font-family: "Palatino Linotype", "Book Antiqua", Garamond, "Latin Modern Math", serif;
         }
         .final-line {
@@ -141,6 +137,9 @@
         const riddleDiv = document.getElementById('riddle')
         let isShowingExplanation = false
 
+        let urlParams = new URLSearchParams(window.location.search)
+        let selectedRiddle = urlParams.get('riddle')
+
         explanationButton.addEventListener('click', () => {
             isShowingExplanation = !isShowingExplanation
             explanationButton.innerText = isShowingExplanation ? 'Hide Explanation' : 'Show Explanation'
@@ -162,7 +161,7 @@
         const filesBaseUrl = 'https://github.com/VenkataRamanaRao5/Riddles-And-Enigmas/blob/main/'
 
         async function fetchRiddle(path) {
-            return fetch('/second/second.json')
+            return fetch(demobaseUrl + path)
                 .then(response => response.json())
                 .then(data => {
                     let res = {}
@@ -202,6 +201,15 @@
                 const selectedRiddle = riddles[event.target.value]
                 showRiddle(selectedRiddle)
             })
+            if(selectedRiddle) {
+                if(riddles[selectedRiddle]) {
+                    selector.value = selectedRiddle
+                } else {
+                    window.location.search = '?riddle=' + Object.keys(riddles)[0]
+                }
+            } else {
+                selector.value = Object.keys(riddles)[0]
+            }
             showRiddle(riddles[selector.value])
         }
 
