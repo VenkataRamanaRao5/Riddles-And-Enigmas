@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riddles and Enigmas</title>
     <style>
-        html, body, #container {
+        html,
+        body,
+        #container {
             height: 100%;
             width: 100%;
             margin: 0;
@@ -13,12 +16,15 @@
             flex-direction: column;
             align-items: center;
         }
+
         .hidden {
             display: none;
         }
+
         .visible {
             display: block;
         }
+
         #riddle {
             min-width: 60%;
             max-width: 100%;
@@ -30,6 +36,7 @@
             display: flex;
             flex-direction: column;
         }
+
         .riddle-line {
             padding: 5px;
             display: inline-block;
@@ -37,6 +44,7 @@
             margin-bottom: 0;
             padding-bottom: 0;
         }
+
         .riddle-text {
             font-size: calc(12px + 0.8vw);
             font-weight: 600;
@@ -45,12 +53,14 @@
             color: #333;
             font-family: "Palatino Linotype", "Book Antiqua", Garamond, serif;
         }
+
         .explanation-line {
             margin-top: 5px;
             margin-left: 20px;
             padding: 5px;
             font-size: calc(10px + 0.8vw);
         }
+
         .explanation-text {
             margin: 10px 0 0 0;
             padding: 5px;
@@ -58,17 +68,21 @@
             flex-wrap: wrap;
             background-color: #e9f7ef;
         }
-        .explanation-word, .explanation-meaning {
+
+        .explanation-word,
+        .explanation-meaning {
             word-wrap: normal;
             position: relative;
             top: 0;
         }
+
         .explanation-word {
             width: 34%;
-            color:#0f4b39;
+            color: #0f4b39;
             background-color: #d1edff;
             font-family: "Palatino Linotype", "Book Antiqua", Garamond, serif;
         }
+
         .explanation-meaning {
             width: 64%;
             color: #124a1f;
@@ -77,6 +91,7 @@
             font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
             white-space: pre-wrap;
         }
+
         .riddle-answer {
             font-size: calc(15px + 1vw);
             font-weight: 700;
@@ -85,6 +100,7 @@
             color: rgb(233, 198, 0);
             font-family: "Palatino Linotype", "Book Antiqua", Garamond, "Latin Modern Math", serif;
         }
+
         .final-line {
             font-size: calc(15px + 0.8vw);
             white-space: pre-wrap;
@@ -93,6 +109,7 @@
             color: #333;
             font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
         }
+
         #controls {
             display: flex;
             flex-direction: row;
@@ -100,6 +117,7 @@
             align-items: center;
             padding: 10px;
         }
+
         #selector {
             width: calc(40px + 10vw);
             height: 40px;
@@ -109,6 +127,7 @@
             border: 1px solid #ccc;
             background-color: #f8f9fa;
         }
+
         #explanation {
             padding: 10px;
             font-size: calc(8px + 0.8vw);
@@ -121,10 +140,28 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
+        .github-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 2px;
+            height: 40px;
+            width: 40px;
+            border-radius: 5px;
+            border: 1px solid inherit;
+            background-color:inherit;
+        }
     </style>
 </head>
+
 <body>
     <div id="container">
+        <a href="https://github.com/VenkataRamanaRao5/Riddles-And-Enigmas" target="_blank">
+            <button class="github-button">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style="width: 100%; height: auto;">
+            </button>
+        </a>
         <div id="controls">
             <select id="selector"></select>
             <button id="explanation">Show Explanation</button>
@@ -146,7 +183,7 @@
             explanationButton.style.backgroundColor = isShowingExplanation ? 'green' : 'red'
             const explanationDivs = document.getElementsByClassName('explanation')
             Array.from(explanationDivs).forEach(div => {
-                if(isShowingExplanation) {
+                if (isShowingExplanation) {
                     div.classList.remove('hidden')
                     div.classList.add('visible')
                 } else {
@@ -158,7 +195,6 @@
 
         let riddles = {}
         const demobaseUrl = 'https://venkataramanarao5.github.io/Riddles-And-Enigmas/'
-        const filesBaseUrl = 'https://github.com/VenkataRamanaRao5/Riddles-And-Enigmas/blob/main/'
 
         async function fetchRiddle(path) {
             return fetch(demobaseUrl + path)
@@ -177,21 +213,21 @@
 
         async function fetchRiddles() {
             return fetch('https://api.github.com/repos/VenkataRamanaRao5/Riddles-And-Enigmas/git/trees/main?recursive=1')
-            .then(response => response.json())
-            .then(data => {
-                let jsonFiles = data.tree.filter(file => file.path.endsWith('.json')).map(file => file.path)
-                console.log(jsonFiles)
-                return jsonFiles
-            }).then(jsonFiles => {
-                let promises = jsonFiles.map(file => fetchRiddle(file))
-                return Promise.all(promises).then(results => {
-                    let allRiddles = {}
-                    results.forEach(riddle => {
-                        Object.assign(allRiddles, riddle)
+                .then(response => response.json())
+                .then(data => {
+                    let jsonFiles = data.tree.filter(file => file.path.endsWith('.json')).map(file => file.path)
+                    console.log(jsonFiles)
+                    return jsonFiles
+                }).then(jsonFiles => {
+                    let promises = jsonFiles.map(file => fetchRiddle(file))
+                    return Promise.all(promises).then(results => {
+                        let allRiddles = {}
+                        results.forEach(riddle => {
+                            Object.assign(allRiddles, riddle)
+                        })
+                        return allRiddles
                     })
-                    return allRiddles
                 })
-            })
         }
 
         async function processRiddles(params) {
@@ -201,8 +237,8 @@
                 const selectedRiddle = riddles[event.target.value]
                 showRiddle(selectedRiddle)
             })
-            if(selectedRiddle) {
-                if(riddles[selectedRiddle]) {
+            if (selectedRiddle) {
+                if (riddles[selectedRiddle]) {
                     selector.value = selectedRiddle
                 } else {
                     window.location.search = '?riddle=' + Object.keys(riddles)[0]
@@ -220,8 +256,8 @@
             answerDiv.classList.add('explanation', 'riddle-answer')
             answerDiv.innerHTML = selectedRiddle.answer
             riddleDiv.appendChild(answerDiv)
-            
-            for(let line of selectedRiddle.lines) {
+
+            for (let line of selectedRiddle.lines) {
                 let riddleLine = document.createElement('div')
                 riddleLine.className = 'riddle-line'
 
@@ -230,14 +266,14 @@
                 p.innerText = line.line
                 riddleLine.appendChild(p)
 
-                if(line.explanation.length > 0) {
+                if (line.explanation.length > 0) {
                     let expDiv = document.createElement('div')
                     expDiv.classList.add('explanation', 'explanation-line')
 
-                    for(let exp of line.explanation) {
+                    for (let exp of line.explanation) {
                         let expLine = document.createElement('p')
                         expLine.className = 'explanation-text'
-                        
+
                         let word = document.createElement('span')
                         word.className = 'explanation-word'
                         word.innerText = `"${exp.words}"`
@@ -265,8 +301,9 @@
             explanationButton.click()
             explanationButton.click()
         }
-        
+
         processRiddles()
     </script>
 </body>
+
 </html>
