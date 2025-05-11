@@ -1,0 +1,55 @@
+{
+    "name": "third",
+    "answer": "Riemann Hypothesis",
+    "lines": [
+        {
+            "line": "The answers could be found walking a line",
+            "explanation": [
+                {
+                    "words": "The answers",
+                    "meaning": "The solutions - the zeros"
+                },
+                {
+                    "words": "walking a line",
+                    "meaning": "The critical line containing the solutions"
+                },
+                {
+                    "words":"answers could be found walking a line",
+                    "meaning": "The zeros lie on the critical line."
+                }
+            ]
+        },
+        {
+            "line": "At half to the right and ever so fine.",
+            "explanation": [
+                {
+                    "words": "half to the right",
+                    "meaning": "The vertical line Re(s) = ½ in the complex plane"
+                },
+                {
+                    "words": "ever so fine",
+                    "meaning": "The line is very precise - exactly at Re(s) = ½"
+                }
+            ]
+        },
+        {
+            "line": "Upon the belief, kingdoms have risen,",
+            "explanation": [
+                {
+                    "words": "kingdoms have risen",
+                    "meaning": "Many results in prime number theory and cryptography rely on this assumption"
+                }
+            ]
+        },
+        {
+            "line": "Yet the fact remains that it's not proven.",
+            "explanation": [
+                {
+                    "words": "not proven",
+                    "meaning": "This conjecture of zeros lying on the critical line is unproven"
+                }
+            ]
+        }
+    ],
+    "answer_explanation": "Describes the Riemann Hypothesis:\nAll non-trivial zeros of the Riemann zeta function lie on the line <em>Re(s) = ½</em>. This result would reveal hidden order in prime numbers if proven true. Many results and research have been derived from this hypothesis, but it remains one of the most famous unsolved problems"
+}
