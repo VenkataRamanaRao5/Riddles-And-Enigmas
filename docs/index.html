@@ -194,10 +194,10 @@
         })
 
         let riddles = {}
-        const demobaseUrl = 'https://venkataramanarao5.github.io/Riddles-And-Enigmas/'
+        const fileContentUrl = 'https://raw.githubusercontent.com/VenkataRamanaRao5/Riddles-And-Enigmas/refs/heads/main/'
 
         async function fetchRiddle(path) {
-            return fetch(demobaseUrl + path)
+            return fetch(fileContentUrl + path)
                 .then(response => response.json())
                 .then(data => {
                     let res = {}
